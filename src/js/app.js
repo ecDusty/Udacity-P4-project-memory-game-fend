@@ -26,6 +26,77 @@ function shuffle(array) {
 }
 
 
+
+const cards = document.getElementsByClassName('card');
+
+for (var card of cards) {
+    card.addEventListener('click', function() {
+        if (card.classList.contains('show')) {
+            card.classList.remove('show');
+        } else if (!card.classList.contains('match')) {
+            card.classList.add('show');
+        }
+    }); 
+}
+
+// cards.forEach(function(el) {
+//     el.addEventListener('click', function() {
+//         if (el.classList.contains('show')) {
+//             el.classList.remove('show');
+//         } else if (!el.classList.contains('match')) {
+//             el.classList.add('show');
+//         }
+//     });
+// });
+
+function Model() {
+
+    this.loadData = function() {
+
+        if (localStorage.getItem('ecmMemGame')) {
+            const game = localStorage.getItem('ecmMemGame');
+            this.moves = game.moves;
+            this.time = game.time;
+            this.recordTime = game.recordTime;
+            this.cards = game.cards;
+            this.deck = game.deck;
+        } else {
+            this.cards = [
+                {
+                    'id': 1,
+                    'name': 'diamond',
+                    'state': ''
+                }
+            ]
+
+            this.deck = []
+        }
+    }
+
+    this.init = function() {
+        this.loadData();
+    }
+}
+
+function View() {
+    
+}
+
+function Octo() {
+    this.init = function() {
+        Model.init();
+        View.init();
+    }
+
+    this.getDeck = function() {
+        return Model.deck;
+    } 
+}
+
+Octo.init();
+
+shuffle(Model.cards);
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)

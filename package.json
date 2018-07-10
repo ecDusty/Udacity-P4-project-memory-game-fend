@@ -1,0 +1,39 @@
+{
+  "name": "web-starter-tool-kit",
+  "version": "2.0.1",
+  "description": "A starting tool kit for any web developer to build and test a website",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git:https://github.com/ecDusty/.Web-Starter-Tool-Kit.git"
+  },
+  "keywords": [],
+  "author": "Erin Macalligan",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^x.x.x"
+  },
+  "devDependencies": {
+    "babel-core": "^x.x.x",
+    "babel-eslint": "^x.x.x",
+    "babel-preset-env": "^x.x.x",
+    "browser-sync": "^x.x.x",
+    "del": "^x.x.x",
+    "eslint": "^x.x.x",
+    "gulp-autoprefixer": "^x.x.x",
+    "gulp-babel": "^x.x.x",
+    "gulp-concat": "^x.x.x",
+    "gulp-eslint": "^x.x.x",
+    "gulp-html-minifier": "^x.x.x",
+    "gulp-image": "^x.x.x",
+    "gulp-plumber": "^x.x.x",
+    "gulp-rename": "^x.x.x",
+    "gulp-sass": "^x.x.x",
+    "gulp-sourcemaps": "^x.x.x",
+    "gulp-uglify": "^x.x.x",
+    "gulp-zip": "^x.x.x"
+  }
+}

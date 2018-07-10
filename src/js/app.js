@@ -10,23 +10,10 @@
  *   - add each card's HTML to the page
  */
 
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
 
 
 
+//testing clicking functionality
 const cards = document.getElementsByClassName('card');
 
 for (var card of cards) {
@@ -41,17 +28,51 @@ for (var card of cards) {
 
 
 
-// MY ATTEMPT to order this games code.
+// MY ATTEMPT to build this in a MOV format
 
-function Model() {
+// The model holds all the games data.
 
-    this.buildDeck = function() {
-        let builtDeck = []
-        
-        return builtDeck;
-    }
+const Model = {
 
-    this.init = function() {
+    //Builds out the card deck elements into an easy to access array
+    buildDeck: function() {
+        let startDeck = [];
+
+        function createCard(card) {
+            const baseCard = document.createElement('li');
+            baseCard.className = 'card';
+            baseCard.dataset.item = card;
+            baseCard.subEl = document.createElement('i');
+            baseCard.subEl.className = 'fa fa-' + card;
+            baseCard.appendChild(baseCard.subEl);
+            return baseCard
+        }
+
+        // Shuffle function from http://stackoverflow.com/a/2450976
+        function shuffle(array) {
+            var currentIndex = array.length, temporaryValue, randomIndex;
+
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+
+            return array;
+        }
+
+        for (var card of this.cards) {
+            startDeck.push(createCard(card));
+            startDeck.push(createCard(card));
+        }
+
+        this.deck = shuffle(startDeck);
+    },
+
+    //This runs on game start.
+    init: function() {
         if (localStorage.getItem('ecmMemGame')) {
             const game = localStorage.getItem('ecmMemGame');
             this.moves = game.moves;
@@ -73,40 +94,44 @@ function Model() {
 
             this.buildDeck();
         }
-        
-
-        return this.deck;
     }
 }
 
-function View() {
+const View = {
+    init: function() {
+        this.theDeck = document.getElementsByClassName('deck')[0];
+        this.theDeck.innerHTML = '';
+        for (var card of Octo.getDeck()){
+            card.addEventListener('click', function(el) {
+                el.target.classList.contains('show') ? 
+                    el.target.classList.remove('show') 
+                    : el.target.classList.add('show');
+            }); 
+            this.theDeck.appendChild(card);
+        }
 
 
-    this.init = function() {
 
     }
 }
 
-function Octo() {
+const Octo = {
 
-    this.getDeck = function() {
+    getDeck: function() {
         return Model.deck;
-    }
+    },
 
-    this.setDeck = function(deck) {
+    setDeck: function(deck) {
         Model.deck = deck;
-    }
+    },
 
-    this.init = function() {
+    init: function() {
         Model.init();
         View.init();
     }
 }
 
-const Game = new Octo;
-Game.init();
-
-shuffle(Model.cards);
+Octo.init();
 
 /*
  * set up the event listener for a card. If a card is clicked:

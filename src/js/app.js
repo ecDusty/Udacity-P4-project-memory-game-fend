@@ -30,29 +30,28 @@ function shuffle(array) {
 const cards = document.getElementsByClassName('card');
 
 for (var card of cards) {
-    card.addEventListener('click', function() {
-        if (card.classList.contains('show')) {
-            card.classList.remove('show');
-        } else if (!card.classList.contains('match')) {
-            card.classList.add('show');
-        }
+    let that = card
+    card.addEventListener('click', function(el) {
+        console.log(el)
+        that.classList.contains('show') ? 
+            that.classList.remove('show') 
+            : that.classList.add('show');
     }); 
 }
 
-// cards.forEach(function(el) {
-//     el.addEventListener('click', function() {
-//         if (el.classList.contains('show')) {
-//             el.classList.remove('show');
-//         } else if (!el.classList.contains('match')) {
-//             el.classList.add('show');
-//         }
-//     });
-// });
+
+
+// MY ATTEMPT to order this games code.
 
 function Model() {
 
-    this.loadData = function() {
+    this.buildDeck = function() {
+        let builtDeck = []
+        
+        return builtDeck;
+    }
 
+    this.init = function() {
         if (localStorage.getItem('ecmMemGame')) {
             const game = localStorage.getItem('ecmMemGame');
             this.moves = game.moves;
@@ -62,38 +61,50 @@ function Model() {
             this.deck = game.deck;
         } else {
             this.cards = [
-                {
-                    'id': 1,
-                    'name': 'diamond',
-                    'state': ''
-                }
-            ]
+                'diamond',
+                'paper-plane-o',
+                'anchor',
+                'bolt',
+                'cube',
+                'leaf',
+                'bicycle',
+                'bomb'
+            ];
 
-            this.deck = []
+            this.buildDeck();
         }
-    }
+        
 
-    this.init = function() {
-        this.loadData();
+        return this.deck;
     }
 }
 
 function View() {
-    
+
+
+    this.init = function() {
+
+    }
 }
 
 function Octo() {
+
+    this.getDeck = function() {
+        return Model.deck;
+    }
+
+    this.setDeck = function(deck) {
+        Model.deck = deck;
+    }
+
     this.init = function() {
         Model.init();
         View.init();
     }
-
-    this.getDeck = function() {
-        return Model.deck;
-    } 
 }
 
-Octo.init();
+const Game = new Octo;
+Game.init();
 
 shuffle(Model.cards);
 

@@ -99,6 +99,10 @@ const Model = {
 
 const View = {
     //Initialization of the game view, places elements in the DOM & adding event listeners.
+    cardCheck: function(card) {
+        
+    },
+
     init: function() {
         this.theDeck = document.getElementsByClassName('deck')[0];
         this.theDeck.innerHTML = '';

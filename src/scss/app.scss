@@ -18,7 +18,7 @@ body {
 
 body {
     background: #ffffff url('../images/geometry2.png'); /* Background pattern from Subtle Patterns */
-    font-family: 'Coda', cursive;
+    font-family: 'Berkshire Swash', cursive, sans-serif;
 }
 
 .container {
@@ -29,7 +29,7 @@ body {
 }
 
 h1 {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Berkshire Swash', cursive, sans-serif;
     font-weight: 300;
 }
 
@@ -43,7 +43,9 @@ h1 {
 .deck {
     width: 660px;
     min-height: 680px;
-    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    background: #faa930;
+    background: radial-gradient(farthest-corner at 100% 100%, #faa930 0%,#5a6afa 100%);
+    background-position: left bottom;
     padding: 32px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
@@ -70,7 +72,6 @@ h1 {
             font-size: 33px;
             transform: rotateY(0);
             background: #02b3e4;
-            cursor: default;
         }
 
         &.match {

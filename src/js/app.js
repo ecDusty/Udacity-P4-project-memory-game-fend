@@ -98,25 +98,27 @@ const Model = {
 }
 
 const View = {
+    //Initialization of the game view, places elements in the DOM & adding event listeners.
     init: function() {
         this.theDeck = document.getElementsByClassName('deck')[0];
         this.theDeck.innerHTML = '';
+
         for (var card of Octo.getDeck()){
-            card.addEventListener('click', function(el) {
-                el.target.classList.contains('show') ? 
-                    el.target.classList.remove('show') 
-                    : el.target.classList.add('show');
+            card.addEventListener('click', function(e) {
+                const el = e.target;
+                if (!el.classList.contains('match')){
+                    el.classList.contains('show') ? 
+                        el.classList.remove('show') 
+                        : el.classList.add('show');
+                }
             }); 
             this.theDeck.appendChild(card);
         }
-
-
-
     }
 }
 
 const Octo = {
-
+    //Get the current array of cards
     getDeck: function() {
         return Model.deck;
     },

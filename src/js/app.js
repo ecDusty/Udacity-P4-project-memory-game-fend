@@ -17,7 +17,7 @@
 
 const Model = {
 
-    createCard: function(card) {
+    createCard: function(card,n) {
         const baseCard = document.createElement('li');
         baseCard.subEl = document.createElement('i');
 
@@ -26,8 +26,12 @@ const Model = {
 
         //Has the card been matched up? This makes it easily accessable throughout the game
         baseCard.match = false;
+        
         //Tells whether the card is showing or not
         baseCard.cardShow = false;
+
+        //Set ID number to a card
+        baseCard.cardID = n;
 
         //Setup the card DOM structure and attributes.
         baseCard.className = 'card';
@@ -58,9 +62,12 @@ const Model = {
         let startDeck = [];
         const that = this;
 
+        let n = 0
         for (var card of this.cards) {
-            startDeck.push(that.createCard(card));
-            startDeck.push(that.createCard(card));
+            startDeck.push(that.createCard(card,n));
+            n++;
+            startDeck.push(that.createCard(card,n));
+            n++;
         }
 
         this.deck = this.shuffle(startDeck);
@@ -77,6 +84,7 @@ const Model = {
             this.recordTime = game.recordTime;
             this.cards = game.cards;
             this.deck = game.deck;
+            this.activeCard = game.activeCard
         } else {
             this.cards = [
                 'diamond',
@@ -114,6 +122,8 @@ const View = {
             } else {
                 card.cardShow = true;
                 card.classList.add('show');
+                
+
             }
         }
     },
@@ -134,6 +144,12 @@ const View = {
 }
 
 const Octo = {
+
+    //Get current flipped card
+    getActiveCard: function() {
+        return Model.activeCard
+    }
+
     //Get the current array of cards
     getDeck: function() {
         return Model.deck;

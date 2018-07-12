@@ -81,7 +81,11 @@ h1 {
         &.match {
             cursor: default;
             background: #02ccba;
-            font-size: 33px;
+        }
+
+        &.wrong {
+            background: #e02d2d;
+
         }
     }
 }

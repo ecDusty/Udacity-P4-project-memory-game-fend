@@ -109,22 +109,18 @@ const View = {
     },
 
     //The wrong pair of cards are selected, then run this function
-    wrongCards: function(card,active) {
-        card.classList.add('wrong');
-        card.classList.remove('show');
-        card.cardShow = false;
-        active.classList.add('wrong');
-        active.classList.remove('show');
-        card.cardShow = false;
+    wrongCards: function(card1,card2) {
+        card1.classList.add('wrong');
+        card1.cardShow = false;
+        card2.classList.add('wrong');
+        card2.cardShow = false;
     },
 
     setMatched: function(card1, card2) {
         card1.classList.add('match');
-        card1.classList.remove('show');
         card1.match = true;
         card2.classList.add('match');
-        card2.classList.remove('show');
-        card1.match = true;
+        card2.match = true;
     },
 
     //Check what the card / cards are set as, and act accordingly.

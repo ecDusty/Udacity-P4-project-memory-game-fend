@@ -11,23 +11,6 @@
  */
 
 
-
-
-//testing clicking functionality
-const cards = document.getElementsByClassName('card');
-
-for (var card of cards) {
-    let that = card
-    card.addEventListener('click', function(el) {
-        console.log(el)
-        that.classList.contains('show') ? 
-            that.classList.remove('show') 
-            : that.classList.add('show');
-    }); 
-}
-
-
-
 // MY ATTEMPT to build this in a MOV format
 
 // The model holds all the games data.
@@ -36,9 +19,11 @@ const Model = {
 
     createCard: function(card) {
         const baseCard = document.createElement('li');
+        baseCard.subEl = document.createElement('i');
 
         //Place the name of the card with the Object element
         baseCard.card = card;
+
         //Has the card been matched up? This makes it easily accessable throughout the game
         baseCard.match = false;
         //Tells whether the card is showing or not
@@ -46,9 +31,7 @@ const Model = {
 
         //Setup the card DOM structure and attributes.
         baseCard.className = 'card';
-        console.log(card);
         baseCard.dataset.item = card;
-        baseCard.subEl = document.createElement('i');
         baseCard.subEl.className = 'fa fa-' + card;
         baseCard.appendChild(baseCard.subEl);
 
@@ -76,7 +59,6 @@ const Model = {
         const that = this;
 
         for (var card of this.cards) {
-            console.log('Array card:\n'+card);
             startDeck.push(that.createCard(card));
             startDeck.push(that.createCard(card));
         }
@@ -127,14 +109,13 @@ const View = {
     cardCheck: function(card) {
         if (!card.match) {
             if (card.cardShow) {
-                card.cardShow = true;
-                card.classList.add('show');
-            } else {
                 card.cardShow = false;
                 card.classList.remove('show');
+            } else {
+                card.cardShow = true;
+                card.classList.add('show');
             }
         }
-        console.log(card.match+'\n'+card.card)
     },
 
     init: function() {
@@ -144,13 +125,8 @@ const View = {
 
         for (var card of Octo.getDeck()){
             card.addEventListener('click', function(e) {
-                const el = e.target;
+                const el = e.currentTarget;
                 that.cardCheck(el);
-                if (!el.classList.contains('match')){
-                    el.classList.contains('show') ? 
-                        el.classList.remove('show') 
-                        : el.classList.add('show');
-                }
             }); 
             this.theDeck.appendChild(card);
         }

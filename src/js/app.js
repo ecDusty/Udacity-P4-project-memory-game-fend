@@ -161,7 +161,7 @@ const View = {
         }
 
         //Create Stars
-        document.getElementsByClassName[0].innerHTML = ``;
+        document.getElementsByClassName('stars')[0].innerHTML = ``;
 
         for (var i = 0; i < Octo.getMoves(); i++) {
             const lItem = document.createElement('li');

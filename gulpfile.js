@@ -52,7 +52,7 @@ var DIST_DIR = 'live',
     DIST_AUD = DIST_DIR+'/audio';
 
 //Testing
-var TEST_DIR = 'dev',
+var TEST_DIR = 'test',
     TEST_CSS = TEST_DIR+'/css',
     TEST_JS = TEST_DIR+'/js',
     TEST_IMG = TEST_DIR+'/images/*.{png,jpeg,jpg,gif,svg}',
@@ -232,7 +232,7 @@ gulp.task('serve:dist', function() {
     }
     });
 
-    gulp.watch(['dist/{*.html,**/*.html}', 'dist/**/*.css', 'dist/**/*.js', 'dist/**/*.{png,jpeg,jpg,gif,svg}']).on('change', browserSync.reload);
+    gulp.watch([DIST_DIR+'/{*.html,**/*.html}', DIST_DIR+'/**/*.css', DIST_DIR+'/**/*.js', DIST_DIR+'/**/*.{png,jpeg,jpg,gif,svg}']).on('change', browserSync.reload);
 });
 
 /*============
@@ -253,7 +253,7 @@ gulp.task('serve:dev', function() {
     }
     });
 
-    gulp.watch(['dev/{*.html,**/*.html}', 'dev/**/*.css', 'dev/**/*.js', 'dev/**/*.{png,jpeg,jpg,gif,svg}']).on('change', browserSync.reload);
+    gulp.watch([TEST_DIR+'/{*.html,**/*.html}', TEST_DIR+'/**/*.css', TEST_DIR+'/**/*.js', TEST_DIR+'/**/*.{png,jpeg,jpg,gif,svg}']).on('change', browserSync.reload);
 });
 
 /*============

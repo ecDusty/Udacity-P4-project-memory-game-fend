@@ -96,7 +96,7 @@ const Model = {
                 'bicycle',
                 'bomb'
             ];
-
+            this.activeCard = [null];
             this.buildDeck();
         }
     }
@@ -109,21 +109,42 @@ const View = {
     },
 
     //The wrong pair of cards are selected, then run this function
-    wrongCards: function() {
+    wrongCards: function(card,active) {
+        card.classList.add('wrong');
+        active.classList.add('wrong');
+        card.classList.remove('show');
+        active.classList.remove('show');
+    },
 
+    setMatched: function(card1, card2) {
+        card1.classList.add('match');
+        card1.classList.remove('show');
+        card2.classList.add('match');
+        card2.classList.remove('show');
     },
 
     //Check what the card / cards are set as, and act accordingly.
     cardCheck: function(card) {
+        const activeC = Octo.getActiveCard();
+
         if (!card.match) {
             if (card.cardShow) {
                 card.cardShow = false;
                 card.classList.remove('show');
+                Octo.setActiveCard(null);
             } else {
                 card.cardShow = true;
                 card.classList.add('show');
-                
-
+                if (activeC[0] && activeC.length < 2) {
+                    Octo.setActiveCard(activeC[0],card);
+                    if (card.card === activeC.card) {
+                        this.setMatched(card,activeC[0]);
+                    } else {
+                        this.wrongCards(card,activeC[0]);
+                    }
+                } else if (!activeC[0] && activeC.length < 2) {
+                    Octo.setActiveCard(card);
+                }
             }
         }
     },
@@ -145,9 +166,14 @@ const View = {
 
 const Octo = {
 
+    setActiveCard: function(card1,card2) {
+        !card2 ? Model.activeCard = [card1,card2]
+            : Model.activeCard = [card1];
+    },
+
     //Get current flipped card
     getActiveCard: function() {
-        return Model.activeCard
+        return Model.activeCard;
     },
 
     //Get the current array of cards

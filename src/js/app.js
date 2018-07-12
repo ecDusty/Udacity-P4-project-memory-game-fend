@@ -138,7 +138,7 @@ const View = {
                     card.classList.add('show');
                     if (activeC[0]) {
                         Octo.setActiveCard(activeC[0],card);
-                        if (card.card === activeC.card) {
+                        if (card.card === activeC[0].card) {
                             this.setMatched(card,activeC[0]);
                         } else {
                             this.wrongCards(card,activeC[0]);

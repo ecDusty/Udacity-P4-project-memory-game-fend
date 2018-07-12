@@ -105,8 +105,7 @@ const View = {
 
     //Initialization of the game view, places elements in the DOM & adding event listeners.
     loseStar: function() {
-        const star = this.stars.pop();
-        star.remove();
+        
     },
 
 
@@ -135,11 +134,11 @@ const View = {
     },
 
     init: function() {
+        this.stars = [];
         //Check if this is the games first start, if so assign Elements to View parameters
         if (!this.gameStart) {
             this.theDeck = document.getElementsByClassName('deck')[0];
             this.resetButton = document.getElementById('restart');
-            
             this.resetButton.addEventListener('click', function() {
                 Octo.reset();
             });
@@ -166,6 +165,7 @@ const View = {
             const icon = document.createElement('i');
             icon.className = `fa fa-star`;
             lItem.appendChild(icon);
+            this.stars.push(lItem);
         }
 
         //Set Moves number
@@ -229,12 +229,13 @@ const Octo = {
     setWrong: function(card1,card2) {
         const that = this;
         that.wrongSet = true;
+        View.wrongCards(card1,card2);
 
         setTimeout(function() {
             that.hideCards(card1,card2);
             Octo.resetActiveCard();
             that.wrongSet = false;
-        }, 1200);
+        }, 1000);
 
         this.loseMove();
         View.loseStar();
@@ -259,7 +260,7 @@ const Octo = {
                         
                         card.card === activeC[0].card ? 
                             View.setMatched(card,activeC[0])
-                            : View.wrongCards(card,activeC[0]);
+                            : View.setWrong(card,activeC[0]);
                     } else {
                         this.setActiveCard(card);
                     }

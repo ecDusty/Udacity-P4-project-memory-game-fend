@@ -17,7 +17,7 @@
 
 const Model = {
 
-    createCard: function(card,n) {
+    createCard: function(card) {
         const baseCard = document.createElement('li');
         baseCard.subEl = document.createElement('i');
 
@@ -29,9 +29,6 @@ const Model = {
         
         //Tells whether the card is showing or not
         baseCard.cardShow = false;
-
-        //Set ID number to a card
-        baseCard.cardID = n;
 
         //Setup the card DOM structure and attributes.
         baseCard.className = 'card';
@@ -62,12 +59,9 @@ const Model = {
         let startDeck = [];
         const that = this;
 
-        let n = 0
         for (var card of this.cards) {
-            startDeck.push(that.createCard(card,n));
-            n++;
-            startDeck.push(that.createCard(card,n));
-            n++;
+            startDeck.push(that.createCard(card));
+            startDeck.push(that.createCard(card));
         }
 
         this.deck = this.shuffle(startDeck);
@@ -107,6 +101,7 @@ const Model = {
 
 const View = {
     reset: function() {
+        Octo.resetMoves();
 
     },
 
@@ -192,7 +187,7 @@ const View = {
 
 const Octo = {
 
-    resetMove: function() {
+    resetMoves: function() {
         Model.moves = 3;
     },
 
@@ -230,6 +225,10 @@ const Octo = {
     //Set the current deck
     setDeck: function(deck) {
         Model.deck = deck;
+    },
+
+    resetDeck: function() {
+        Model.buildDeck();
     },
 
     init: function() {

@@ -124,11 +124,14 @@ const View = {
 
     //The wrong pair of cards are selected, then run this function
     wrongCards: function(card1,card2) {
+        const that = this;
         card1.classList.add('wrong');
         card1.cardShow = false;
         card2.classList.add('wrong');
         card2.cardShow = false;
-        setTimeout(this.hideCards(card1,card2), 1400);
+        setTimeout(function() {
+            that.hideCards(card1,card2);
+        }, 3000);
         Octo.loseMove();
         this.updateStars();
     },

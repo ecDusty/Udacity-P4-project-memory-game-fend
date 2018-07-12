@@ -101,7 +101,7 @@ const Model = {
 
 const View = {
 
-    gameStart: false,
+    gameStart: false, //Used to see if game is on it's first start round
 
     reset: function() {
         Octo.resetMoves();
@@ -181,7 +181,18 @@ const View = {
 
     init: function() {
         const that = this;
-        this.theDeck = document.getElementsByClassName('deck')[0];
+
+        //Check if this is the games first start, if so assign Elements to View parameters
+        if (!gameStart) {
+            this.theDeck = document.getElementsByClassName('deck')[0];
+            this.resetButton = document.getElementById('reset');
+            
+            resetButton.addEventListener('click', function() {
+                that.reset();
+            });
+        }
+
+        //Reset the deck
         this.theDeck.innerHTML = '';
         this.wrongSet = false;
 
@@ -194,8 +205,7 @@ const View = {
             this.theDeck.appendChild(card);
         }
 
-
-
+        gameStart = true;
     }
 }
 

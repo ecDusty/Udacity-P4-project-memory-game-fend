@@ -139,7 +139,6 @@ const View = {
         if (!this.gameStart) {
             this.theDeck = document.getElementsByClassName('deck')[0];
             this.resetButton = document.getElementById('restart');
-            this.stars = document.getElementsByClassName('fa fa-star');
             
             this.resetButton.addEventListener('click', function() {
                 Octo.reset();
@@ -147,7 +146,7 @@ const View = {
         }
 
         //Reset the deck
-        this.theDeck.innerHTML = '';
+        this.theDeck.innerHTML = ``;
         this.wrongSet = false;
 
         for (var card of Octo.getDeck()){
@@ -159,6 +158,18 @@ const View = {
             this.theDeck.appendChild(card);
         }
 
+        //Create Stars
+        document.getElementsByClassName[0].innerHTML = ``;
+
+        for (var i = 0; i < Octo.getMoves(); i++) {
+            const lItem = document.createElement('li');
+            const icon = document.createElement('i');
+            icon.className = `fa fa-star`;
+            lItem.appendChild(icon);
+        }
+
+        //Set Moves number
+        document.getElementsByClassName('moves')[0].innerHTML = Octo.getMoves();
         this.gameStart = true;
     }
 }
@@ -177,6 +188,11 @@ const Octo = {
     //Return moves
     getMoves: function() {
         return Model.moves;
+    },
+
+    //Update Star & move number
+    updateMoves: function() {
+
     },
 
     //reset flipped cards array

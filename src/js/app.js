@@ -133,17 +133,20 @@ const View = {
                 card.classList.remove('show');
                 Octo.setActiveCard(null);
             } else {
-                card.cardShow = true;
-                card.classList.add('show');
-                if (activeC[0] && activeC.length < 2) {
-                    Octo.setActiveCard(activeC[0],card);
-                    if (card.card === activeC.card) {
-                        this.setMatched(card,activeC[0]);
+                if (activeC.length < 2) {
+                    card.cardShow = true;
+                    card.classList.add('show');
+                    if (activeC[0]) {
+                        Octo.setActiveCard(activeC[0],card);
+                        if (card.card === activeC.card) {
+                            this.setMatched(card,activeC[0]);
+                        } else {
+                            this.wrongCards(card,activeC[0]);
+                        }
                     } else {
-                        this.wrongCards(card,activeC[0]);
+                        Octo.setActiveCard(card);
                     }
-                } else if (!activeC[0] && activeC.length < 2) {
-                    Octo.setActiveCard(card);
+
                 }
             }
         }
@@ -167,7 +170,7 @@ const View = {
 const Octo = {
 
     setActiveCard: function(card1,card2) {
-        !card2 ? Model.activeCard = [card1,card2]
+        card2 ? Model.activeCard = [card1,card2]
             : Model.activeCard = [card1];
     },
 

@@ -96,6 +96,9 @@ const Model = {
                 'bicycle',
                 'bomb'
             ];
+            this.moves = 3;
+            this.time = 0;
+            this. recordTime = 0;
             this.activeCard = [null];
             this.buildDeck();
         }
@@ -121,13 +124,14 @@ const View = {
         card1.match = true;
         card2.classList.add('match');
         card2.match = true;
+        Octo.resetActiveCard();
     },
 
     //Check what the card / cards are set as, and act accordingly.
     cardCheck: function(card) {
         const activeC = Octo.getActiveCard();
 
-        if (!card.match) {
+        if (!card.match && Octo.getMoves()) {
             if (card.cardShow) {
                 card.cardShow = false;
                 card.classList.remove('show');
@@ -169,6 +173,22 @@ const View = {
 
 const Octo = {
 
+    //Return moves
+    loseMove: function() {
+        Model.moves--;
+    },
+
+    //Return moves
+    getMoves: function() {
+        return Model.moves;
+    }
+
+    //reset flipped cards array
+    resetActiveCard: function() {
+        Model.activeCard = [];
+    },
+
+    //Set flipped cards
     setActiveCard: function(card1,card2) {
         card2 ? Model.activeCard = [card1,card2]
             : Model.activeCard = [card1];
@@ -184,6 +204,7 @@ const Octo = {
         return Model.deck;
     },
 
+    //Set the current deck
     setDeck: function(deck) {
         Model.deck = deck;
     },

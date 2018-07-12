@@ -104,10 +104,13 @@ const View = {
     gameStart: false, //Used to see if game is on it's first start round
 
     //Initialization of the game view, places elements in the DOM & adding event listeners.
-    loseStar: function() {
-        
+    loseStar: function(n) {
+        this.stars[n].remove();
     },
 
+    changeMoves: function(moves) {
+        document.getElementsByClassName('moves').innerHTML = moves;
+    },
 
     //Hide card
     hideCards: function(...cards) {
@@ -181,18 +184,15 @@ const Octo = {
     },
 
     //Return moves
-    loseMove: function() {
-        Model.moves--;
-    },
-
-    //Return moves
     getMoves: function() {
         return Model.moves;
     },
 
     //Update Star & move number
     updateMoves: function() {
-
+        Model.moves--;
+        View.loseStar(Model.moves);
+        View.changeMoves(Model.moves);
     },
 
     //reset flipped cards array
@@ -237,8 +237,7 @@ const Octo = {
             that.wrongSet = false;
         }, 1000);
 
-        this.loseMove();
-        View.loseStar();
+        this.updateMoves();
 
     },
 

@@ -92,7 +92,7 @@ const Model = {
             ];
             this.moves = 3;
             this.time = 0;
-            this. recordTime = 0;
+            this.recordTime = 0;
             this.activeCard = [null];
             this.buildDeck();
         }
@@ -100,13 +100,17 @@ const Model = {
 }
 
 const View = {
+
+    gameStart: false,
+
     reset: function() {
         Octo.resetMoves();
-
+        Octo.resetDeck();
+        this.init();
     },
 
     //Initialization of the game view, places elements in the DOM & adding event listeners.
-    updateStars: function() {
+    loseStar: function() {
 
     },
 
@@ -124,12 +128,17 @@ const View = {
     //The wrong pair of cards are selected, then run this function
     wrongCards: function(card1,card2) {
         const that = this;
+        that.wrongSet = true;
+
         card1.classList.add('wrong');
         card2.classList.add('wrong');
+
         setTimeout(function() {
             that.hideCards(card1,card2);
             Octo.resetActiveCard();
+            that.wrongSet = false;
         }, 3000);
+
         Octo.loseMove();
         this.updateStars();
     },
@@ -146,7 +155,7 @@ const View = {
     cardCheck: function(card) {
         const activeC = Octo.getActiveCard();
 
-        if (!card.match && Octo.getMoves()) {
+        if (!card.match && Octo.getMoves() && !this.wrongSet) {
             if (card.cardShow) {
                 this.hideCards(card);
                 Octo.setActiveCard(null);
@@ -154,13 +163,13 @@ const View = {
                 if (activeC.length < 2) {
                     card.cardShow = true;
                     card.classList.add('show');
+
                     if (activeC[0]) {
                         Octo.setActiveCard(activeC[0],card);
-                        if (card.card === activeC[0].card) {
-                            this.setMatched(card,activeC[0]);
-                        } else {
-                            this.wrongCards(card,activeC[0]);
-                        }
+                        
+                        card.card === activeC[0].card ? 
+                            this.setMatched(card,activeC[0])
+                            : this.wrongCards(card,activeC[0]);
                     } else {
                         Octo.setActiveCard(card);
                     }
@@ -174,14 +183,19 @@ const View = {
         const that = this;
         this.theDeck = document.getElementsByClassName('deck')[0];
         this.theDeck.innerHTML = '';
+        this.wrongSet = false;
 
         for (var card of Octo.getDeck()){
             card.addEventListener('click', function(e) {
                 const el = e.currentTarget;
                 that.cardCheck(el);
             }); 
+
             this.theDeck.appendChild(card);
         }
+
+
+
     }
 }
 
@@ -208,7 +222,8 @@ const Octo = {
 
     //Set flipped cards
     setActiveCard: function(card1,card2) {
-        card2 ? Model.activeCard = [card1,card2]
+        card2 ? 
+            Model.activeCard = [card1,card2]
             : Model.activeCard = [card1];
     },
 
@@ -239,13 +254,3 @@ const Octo = {
 
 Octo.init();
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */

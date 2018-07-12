@@ -227,7 +227,7 @@ gulp.task('serve:dist', function() {
 
     browserSync.init({
     server: {
-        baseDir: './dist/',
+        baseDir: './'+DIST_DIR+'/',
         domain: 'local.dev'
     }
     });
@@ -248,7 +248,7 @@ gulp.task('serve:dev', function() {
 
     browserSync.init({
         server: {
-        baseDir: './dev/',
+        baseDir: './'+TEST_DIR+'/',
         domain: 'local.dev'
     }
     });

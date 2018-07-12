@@ -28,6 +28,10 @@ body {
     flex-direction: column;
 }
 
+.display-none {
+    display: none !important;
+}
+
 h1 {
     font-family: 'Berkshire Swash', cursive, sans-serif;
     font-weight: 300;

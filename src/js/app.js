@@ -148,7 +148,7 @@ const Octo = {
     //Get current flipped card
     getActiveCard: function() {
         return Model.activeCard
-    }
+    },
 
     //Get the current array of cards
     getDeck: function() {

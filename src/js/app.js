@@ -111,12 +111,26 @@ const View = {
 
     },
 
+
+    //Hide card
+    hideCards: function(...cards) {
+        for (var card of cards) {
+            card.cardShow = false;
+            card.classList.remove('show');
+            card.classList.remove('wrong');
+            card.classList.remove('match');
+        }
+    },
+
     //The wrong pair of cards are selected, then run this function
     wrongCards: function(card1,card2) {
         card1.classList.add('wrong');
         card1.cardShow = false;
         card2.classList.add('wrong');
         card2.cardShow = false;
+        setTimeout(this.hideCards(card1,card2), 1400);
+        Octo.loseMove();
+        this.updateStars();
     },
 
     setMatched: function(card1, card2) {
@@ -133,8 +147,7 @@ const View = {
 
         if (!card.match && Octo.getMoves()) {
             if (card.cardShow) {
-                card.cardShow = false;
-                card.classList.remove('show');
+                this.hideCards(card);
                 Octo.setActiveCard(null);
             } else {
                 if (activeC.length < 2) {
@@ -181,7 +194,7 @@ const Octo = {
     //Return moves
     getMoves: function() {
         return Model.moves;
-    }
+    },
 
     //reset flipped cards array
     resetActiveCard: function() {

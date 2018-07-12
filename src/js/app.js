@@ -103,12 +103,6 @@ const View = {
 
     gameStart: false, //Used to see if game is on it's first start round
 
-    reset: function() {
-        Octo.resetMoves();
-        Octo.resetDeck();
-        this.init();
-    },
-
     //Initialization of the game view, places elements in the DOM & adding event listeners.
     loseStar: function() {
         const star = this.stars.pop();
@@ -128,20 +122,8 @@ const View = {
 
     //The wrong pair of cards are selected, then run this function
     wrongCards: function(card1,card2) {
-        const that = this;
-        that.wrongSet = true;
-
         card1.classList.add('wrong');
         card2.classList.add('wrong');
-
-        setTimeout(function() {
-            that.hideCards(card1,card2);
-            Octo.resetActiveCard();
-            that.wrongSet = false;
-        }, 3000);
-
-        Octo.loseMove();
-        this.loseStar();
     },
 
     setMatched: function(card1, card2) {
@@ -152,37 +134,7 @@ const View = {
         Octo.resetActiveCard();
     },
 
-    //Check what the card / cards are set as, and act accordingly.
-    cardCheck: function(card) {
-        const activeC = Octo.getActiveCard();
-
-        if (!card.match && Octo.getMoves() && !this.wrongSet) {
-            if (card.cardShow) {
-                this.hideCards(card);
-                Octo.setActiveCard(null);
-            } else {
-                if (activeC.length < 2) {
-                    card.cardShow = true;
-                    card.classList.add('show');
-
-                    if (activeC[0]) {
-                        Octo.setActiveCard(activeC[0],card);
-                        
-                        card.card === activeC[0].card ? 
-                            this.setMatched(card,activeC[0])
-                            : this.wrongCards(card,activeC[0]);
-                    } else {
-                        Octo.setActiveCard(card);
-                    }
-
-                }
-            }
-        }
-    },
-
     init: function() {
-        const that = this;
-
         //Check if this is the games first start, if so assign Elements to View parameters
         if (!this.gameStart) {
             this.theDeck = document.getElementsByClassName('deck')[0];
@@ -190,7 +142,7 @@ const View = {
             this.stars = document.getElementsByClassName('fa fa-star');
             
             this.resetButton.addEventListener('click', function() {
-                that.reset();
+                Octo.reset();
             });
         }
 
@@ -201,7 +153,7 @@ const View = {
         for (var card of Octo.getDeck()){
             card.addEventListener('click', function(e) {
                 const el = e.currentTarget;
-                that.cardCheck(el);
+                Octo.cardCheck(el);
             }); 
 
             this.theDeck.appendChild(card);
@@ -256,6 +208,55 @@ const Octo = {
 
     resetDeck: function() {
         Model.buildDeck();
+    },
+
+    setWrong: function(card1,card2) {
+        const that = this;
+        that.wrongSet = true;
+
+        setTimeout(function() {
+            that.hideCards(card1,card2);
+            Octo.resetActiveCard();
+            that.wrongSet = false;
+        }, 1200);
+
+        this.loseMove();
+        View.loseStar();
+
+    },
+
+    //Check what the card / cards are set as, and act accordingly.
+    cardCheck: function(card) {
+        const activeC = this.getActiveCard();
+
+        if (!card.match && this.getMoves() && !View.wrongSet) {
+            if (card.cardShow) {
+                View.hideCards(card);
+                this.setActiveCard(null);
+            } else {
+                if (activeC.length < 2) {
+                    card.cardShow = true;
+                    card.classList.add('show');
+
+                    if (activeC[0]) {
+                        this.setActiveCard(activeC[0],card);
+                        
+                        card.card === activeC[0].card ? 
+                            View.setMatched(card,activeC[0])
+                            : View.wrongCards(card,activeC[0]);
+                    } else {
+                        this.setActiveCard(card);
+                    }
+
+                }
+            }
+        }
+    },
+
+    reset: function() {
+        this.resetMoves();
+        this.resetDeck();
+        View.init();
     },
 
     init: function() {

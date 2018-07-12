@@ -106,6 +106,10 @@ const Model = {
 }
 
 const View = {
+    reset: function() {
+
+    },
+
     //Initialization of the game view, places elements in the DOM & adding event listeners.
     updateStars: function() {
 
@@ -126,11 +130,10 @@ const View = {
     wrongCards: function(card1,card2) {
         const that = this;
         card1.classList.add('wrong');
-        card1.cardShow = false;
         card2.classList.add('wrong');
-        card2.cardShow = false;
         setTimeout(function() {
             that.hideCards(card1,card2);
+            Octo.resetActiveCard();
         }, 3000);
         Octo.loseMove();
         this.updateStars();
@@ -188,6 +191,10 @@ const View = {
 }
 
 const Octo = {
+
+    resetMove: function() {
+        Model.moves = 3;
+    },
 
     //Return moves
     loseMove: function() {

@@ -236,7 +236,7 @@ const Octo = {
             View.hideCards(card1,card2);
             Octo.resetActiveCard();
             View.wrongSet = false;
-        }, 1200);
+        }, 1300);
 
         this.updateMoves();
 

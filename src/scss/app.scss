@@ -70,22 +70,22 @@ h1 {
 .deck {
     width: 100%;
     max-width: 660px;
-    min-height: 680px;
     background: #faa930;
     background: radial-gradient(farthest-corner at 0% 100%, #faa930 0%,#5a6afa 100%);
     background-position: left bottom;
-    padding: 32px;
+    padding: 17px;
     border-radius: 10px;
     box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin: 0 0 3em;
+    margin: 0 auto 3em;
 
     .card {
-        height: 125px; 
-        width: 125px;
+        max-width: 125px;
+        width: calc(25% - 30px);
+        margin: 15px;
         background: #2e3d49;
         font-size: 0;
         color: #ffffff;
@@ -97,9 +97,18 @@ h1 {
         box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
         transition: background 0.15s linear 0.15s, transform 0.3s linear, font-size 0s linear 0.15s;
         transform: rotateY(180deg);
+        position: relative;
+
+        img {
+            opacity: 0;
+            width: 100%;
+        }
 
         i.fa {
-            //transform: rotateY(180deg);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
             transition: transform 0.3s linear;
         }
         
@@ -110,7 +119,7 @@ h1 {
             transition: background 0.2s linear 0.15s, transform 0.3s ease-in-out, font-size 0s linear 0.15s;
 
             i.fa {
-                transform: rotateY(0deg);
+                transform: translate(-50%,-50%);
             }
         }
 
@@ -122,7 +131,17 @@ h1 {
 
         &.wrong {
             background: #e02d2d;
-            animation: shake 1s ease-in-out 0.3s 1;
+            animation: shake 0.8s ease-in-out 0.3s 1;
+        }
+    }
+
+    @media screen and (max-width: 470px) { 
+        padding: 10px;
+        margin: 5px;
+
+        .card {
+            width: calc(25% - 20px);
+            margin: 10px;
         }
     }
 }
@@ -143,6 +162,11 @@ h1 {
     flex-wrap: nowrap;
     justify-content: space-between;
 
+    .timer {
+        min-width: 70px;
+        text-align: left;
+    }
+
     .stars {
         margin: 0;
         padding: 0;
@@ -160,9 +184,9 @@ h1 {
         }
     }
 
-    .moveView {
+    // .moveView {
         
-    }
+    // }
 
     .moves {
         position: relative;

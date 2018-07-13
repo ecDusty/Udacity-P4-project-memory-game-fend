@@ -19,7 +19,11 @@ const Model = {
 
     createCard: function(card) {
         const baseCard = document.createElement('li');
+        const image = document.createElement('img');
         baseCard.subEl = document.createElement('i');
+
+        image.src = `../images/geometry2.png`;
+        image.alt = `Invisible image used to keep items square`;
 
         //Place the name of the card with the Object element
         baseCard.card = card;
@@ -35,6 +39,7 @@ const Model = {
         baseCard.dataset.item = card;
         baseCard.subEl.className = 'fa fa-' + card;
         baseCard.appendChild(baseCard.subEl);
+        baseCard.appendChild(image);
 
         return baseCard
     },
@@ -94,14 +99,17 @@ const Model = {
             ];
             this.moves = 0;
             this.lives = 3;
-            this.time = 0;
-            this.time.hr = 0;
-            this.time.min = 0;
-            this.time.sec = 0;
-            this.time.milli = 0;
+            this.time = {
+                start: false,
+                hr: 0,
+                min: 0,
+                sec: 0,
+                tiny: 0   
+            }
             this.recordTime = 0;
             this.numMatched = 0;
             this.activeCard = [null];
+            this.win = false;
             this.buildDeck();
         }
     }
@@ -110,6 +118,14 @@ const Model = {
 const View = {
 
     gameStart: false, //Used to see if game is on it's first start round
+
+    //Clock view update
+    updateTime: function(timer) {
+        const min = timer.min < 10 ? '0' + timer.min : timer.min;
+        const sec = timer.sec < 10 ? '0' + timer.sec : timer.sec;
+        const tiny = timer.tiny < 10 ? '0' + timer.tiny : timer.tiny
+        document.getElementsByClassName('timer')[0].innerHTML = min + ':' + sec + '.' + tiny;
+    },
 
     //Hide and show the win game sign
     hideWin: function() {
@@ -155,6 +171,7 @@ const View = {
 
     init: function() {
         this.stars = [];
+        Octo.setWin(false);
         //Check if this is the games first start, if so assign Elements to View parameters
         if (!this.gameStart) {
             this.theDeck = document.getElementsByClassName('deck')[0];
@@ -203,6 +220,12 @@ const Octo = {
     //Show the winning sign.
     winGame: function() {
         View.showWin();
+        Model.time.start = false;
+    },
+
+    //Set the wine tracking property
+    setWin: function(x) {
+        Model.win = x;
     },
 
     resetMoves: function() {
@@ -245,9 +268,7 @@ const Octo = {
 
     //Set flipped cards
     setActiveCard: function(card1,card2) {
-        card2 ? 
-            Model.activeCard = [card1,card2]
-            : Model.activeCard = [card1];
+        card2 ? Model.activeCard = [card1,card2] : Model.activeCard = [card1];
     },
 
     //Get current flipped card
@@ -290,6 +311,10 @@ const Octo = {
     //Check what the card / cards are set as, and act accordingly.
     cardCheck: function(card) {
         const activeC = this.getActiveCard();
+        
+        if (!Model.time.start) {
+            this.startTimer(Model.time);
+        }
 
         if (!card.match && this.getLives() && !View.wrongSet) {
             this.updateMoves();
@@ -317,9 +342,38 @@ const Octo = {
         }
     },
 
+    startTimer: function(timer) {
+        Model.time.start = true;
+
+        function clock() {
+            if(Model.time.start) {
+                timer.tiny++
+                if (timer.tiny === 100) {
+                    timer.tiny = 0;
+                    timer.sec++;
+    
+                    if (timer.sec === 60) {
+                        timer.sec = 0;
+                        timer.min++;
+                    }
+                }
+                View.updateTime(timer)
+                setTimeout(clock,10);
+            }
+        }
+
+        setTimeout(clock,10);
+    },
+
     reset: function() {
         this.resetMoves();
         this.resetDeck();
+        this.resetActiveCard();
+        Model.time.start = false;
+        Model.time.min = 0;
+        Model.time.sec = 0;
+        Model.time.tiny = 0;
+        View.updateTime(Model.time);
         View.init();
     },
 

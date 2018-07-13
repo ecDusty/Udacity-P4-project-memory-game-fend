@@ -29,7 +29,8 @@ body {
 }
 
 .display-none {
-    display: none !important;
+    display: none;
+    opacity: 0;
 }
 
 h1 {
@@ -37,6 +38,23 @@ h1 {
     font-weight: 300;
 }
 
+ /*=================================
+ *
+ *   Styles for the win sign
+ *
+ ================================*/
+
+#winning {
+    position: fixed;
+    top: 50%;
+    margin: 0 auto;
+
+    &.show {
+        display: inline-block;
+        opacity: 1;
+        transition: opacity 0.3s linear;
+    }
+}
 
  /*=================================
  *
@@ -200,5 +218,19 @@ h1 {
 
     90% {
         transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+}
+
+@keyframes win {
+    0%, 50%, 100% {
+        transfrom: translate3d(0, 0, 0);
+    }
+
+    25% {
+        transform: translate3d(0, -45px, 0);
+    }
+
+    75% {
+        transform: translate3d(0, 45px, 0);
     }
 }

@@ -78,7 +78,8 @@ const Model = {
             this.recordTime = game.recordTime;
             this.cards = game.cards;
             this.deck = game.deck;
-            this.activeCard = game.activeCard
+            this.activeCard = game.activeCard;
+            this.numMatched = game.numMatched;
         } else {
             this.cards = [
                 'diamond',
@@ -93,6 +94,7 @@ const Model = {
             this.moves = 3;
             this.time = 0;
             this.recordTime = 0;
+            this.numMatched = 0;
             this.activeCard = [null];
             this.buildDeck();
         }
@@ -102,6 +104,15 @@ const Model = {
 const View = {
 
     gameStart: false, //Used to see if game is on it's first start round
+
+    //Hide and show the win game sign
+    hideWin: function() {
+        document.getElementById('winning').className = 'display-none';
+    },
+    
+    showWin: function() {
+        document.getElementById('winning').classList.add('show');
+    },
 
     //Initialization of the game view, places elements in the DOM & adding event listeners.
     loseStar: function(n) {
@@ -173,6 +184,8 @@ const View = {
             this.stars.push(lItem);
         }
 
+        this.hideWin();
+
         //Set Moves number
         document.getElementsByClassName('moves')[0].innerHTML = Octo.getMoves();
         this.gameStart = true;
@@ -180,6 +193,11 @@ const View = {
 }
 
 const Octo = {
+
+    //Show the winning sign.
+    winGame: function() {
+        View.showWin();
+    },
 
     resetMoves: function() {
         Model.moves = 3;
@@ -239,7 +257,13 @@ const Octo = {
         }, 1300);
 
         this.updateMoves();
+    },
 
+    matched: function(card1,card2) {
+        View.setMatched(card1,card2);
+        Model.numMatched++
+        if (Model.numMatched == Model.cards.length)
+            this.winGame();
     },
 
     //Check what the card / cards are set as, and act accordingly.
@@ -259,12 +283,11 @@ const Octo = {
                         this.setActiveCard(activeC[0],card);
                         
                         card.card === activeC[0].card ? 
-                            View.setMatched(card,activeC[0])
+                            this.matched(card,activeC[0])
                             : this.setWrong(card,activeC[0]);
                     } else {
                         this.setActiveCard(card);
                     }
-
                 }
             }
         }

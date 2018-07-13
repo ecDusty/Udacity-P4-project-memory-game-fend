@@ -22,7 +22,7 @@ const Model = {
         const image = document.createElement('img');
         baseCard.subEl = document.createElement('i');
 
-        image.src = `../images/geometry2.png`;
+        image.src = `images/geometry2.png`;
         image.alt = `Invisible image used to keep items square`;
 
         //Place the name of the card with the Object element

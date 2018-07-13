@@ -74,6 +74,7 @@ const Model = {
         if (localStorage.getItem('ecmMemGame')) {
             const game = localStorage.getItem('ecmMemGame');
             this.moves = game.moves;
+            this.lives = game.lives
             this.time = game.time;
             this.recordTime = game.recordTime;
             this.cards = game.cards;
@@ -91,8 +92,13 @@ const Model = {
                 'bicycle',
                 'bomb'
             ];
-            this.moves = 3;
+            this.moves = 0;
+            this.lives = 3;
             this.time = 0;
+            this.time.hr = 0;
+            this.time.min = 0;
+            this.time.sec = 0;
+            this.time.milli = 0;
             this.recordTime = 0;
             this.numMatched = 0;
             this.activeCard = [null];
@@ -175,7 +181,7 @@ const View = {
         const lStars = document.getElementsByClassName('stars')[0]
         lStars.innerHTML = ``;
 
-        for (var i = 0; i < Octo.getMoves(); i++) {
+        for (var i = 0; i < Octo.getLives(); i++) {
             const lItem = document.createElement('li');
             const icon = document.createElement('i');
             icon.className = `fa fa-star`;
@@ -200,7 +206,7 @@ const Octo = {
     },
 
     resetMoves: function() {
-        Model.moves = 3;
+        Model.moves = 0;
     },
 
     //Return moves
@@ -208,10 +214,27 @@ const Octo = {
         return Model.moves;
     },
 
+    //Return lives
+    getLives: function() {
+        return Model.lives;
+    },
+
+    //Return lives
+    updateLives: function() {
+        if(Model.moves < 20) {
+            Model.lives = 3;
+        } else if (Model.moves < 29) {
+            Model.lives = 2;
+            View.loseStar(Model.lives);
+        } else {
+            Model.lives = 1;
+            View.loseStar(Model.lives);
+        }
+    },
+
     //Update Star & move number
     updateMoves: function() {
-        Model.moves--;
-        View.loseStar(Model.moves);
+        Model.moves++;
         View.changeMoves(Model.moves);
     },
 
@@ -255,8 +278,6 @@ const Octo = {
             Octo.resetActiveCard();
             View.wrongSet = false;
         }, 1300);
-
-        this.updateMoves();
     },
 
     matched: function(card1,card2) {
@@ -270,7 +291,10 @@ const Octo = {
     cardCheck: function(card) {
         const activeC = this.getActiveCard();
 
-        if (!card.match && this.getMoves() && !View.wrongSet) {
+        if (!card.match && this.getLives() && !View.wrongSet) {
+            this.updateMoves();
+            this.updateLives();
+
             if (card.cardShow) {
                 View.hideCards(card);
                 this.setActiveCard(null);

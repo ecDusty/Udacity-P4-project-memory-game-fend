@@ -109,7 +109,6 @@ const Model = {
             this.recordTime = 0;
             this.numMatched = 0;
             this.activeCard = [null];
-            this.win = false;
             this.buildDeck();
         }
     }
@@ -171,7 +170,6 @@ const View = {
 
     init: function() {
         this.stars = [];
-        Octo.setWin(false);
         //Check if this is the games first start, if so assign Elements to View parameters
         if (!this.gameStart) {
             this.theDeck = document.getElementsByClassName('deck')[0];
@@ -224,9 +222,6 @@ const Octo = {
     },
 
     //Set the wine tracking property
-    setWin: function(x) {
-        Model.win = x;
-    },
 
     resetMoves: function() {
         Model.moves = 0;

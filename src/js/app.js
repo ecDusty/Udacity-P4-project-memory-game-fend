@@ -109,7 +109,7 @@ const View = {
     },
 
     changeMoves: function(moves) {
-        document.getElementsByClassName('moves').innerHTML = moves;
+        document.getElementsByClassName('moves')[0].innerHTML = moves;
     },
 
     //Hide card
@@ -161,13 +161,15 @@ const View = {
         }
 
         //Create Stars
-        document.getElementsByClassName('stars')[0].innerHTML = ``;
+        const lStars = document.getElementsByClassName('stars')[0]
+        lStars.innerHTML = ``;
 
         for (var i = 0; i < Octo.getMoves(); i++) {
             const lItem = document.createElement('li');
             const icon = document.createElement('i');
             icon.className = `fa fa-star`;
             lItem.appendChild(icon);
+            lStars.appendChild(lItem);
             this.stars.push(lItem);
         }
 
@@ -227,15 +229,14 @@ const Octo = {
     },
 
     setWrong: function(card1,card2) {
-        const that = this;
-        that.wrongSet = true;
+        View.wrongSet = true;
         View.wrongCards(card1,card2);
 
         setTimeout(function() {
-            that.hideCards(card1,card2);
+            View.hideCards(card1,card2);
             Octo.resetActiveCard();
-            that.wrongSet = false;
-        }, 1000);
+            View.wrongSet = false;
+        }, 1200);
 
         this.updateMoves();
 
@@ -259,7 +260,7 @@ const Octo = {
                         
                         card.card === activeC[0].card ? 
                             View.setMatched(card,activeC[0])
-                            : View.setWrong(card,activeC[0]);
+                            : this.setWrong(card,activeC[0]);
                     } else {
                         this.setActiveCard(card);
                     }

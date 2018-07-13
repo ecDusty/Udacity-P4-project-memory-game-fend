@@ -46,13 +46,18 @@ h1 {
 
 #winning {
     position: fixed;
-    top: 50%;
+    top: 35%;
     margin: 0 auto;
 
     &.show {
         display: inline-block;
         opacity: 1;
-        transition: opacity 0.3s linear;
+        transition: opacity 0.5s linear;
+        animation: win 3s ease-in-out infinite;
+    }
+
+    h1 {
+        font-size: 4rem;
     }
 }
 

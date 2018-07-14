@@ -124,11 +124,15 @@ const View = {
     gameStart: false, //Used to see if game is on it's first start round
 
     //Clock view update
+    tFormatText: function(min,sec,tiny) {
+        return min + ':' + sec + '.' + tiny;
+    },
+
     updateTime: function(timer) {
         const min = timer.min < 10 ? '0' + timer.min : timer.min;
         const sec = timer.sec < 10 ? '0' + timer.sec : timer.sec;
         const tiny = timer.tiny < 10 ? '0' + timer.tiny : timer.tiny
-        document.getElementsByClassName('timer')[0].innerHTML = min + ':' + sec + '.' + tiny;
+        document.getElementsByClassName('timer')[0].innerHTML = this.tFormatText(min,sec,tiny);
     },
 
     //Hide and show the win game sign
@@ -137,9 +141,26 @@ const View = {
     },
     
     showWin: function() {
+        const cTime = document.getElementsByClassName('current-time')[0].getElementsByClassName('final-time')[0]
+        const rTime = document.getElementsByClassName('record-time')[0].getElementsByClassName('final-time')[0]
+        const dCTime = Octo.getTime();
+        const dRTime = Octo.getRecordTime();
+        const stars = document.getElementsByClassName('rating')[0].getElementsByClassName('star-rating')[0];
+
+        //Set time on winning cared
+        cTime.innerHTML = this.tFormatText(dCTime.min,dCTime.sec,dCTime.tiny);
+        rTime.innerHTML = this.tFormatText(dRTime.min,dRTime.sec,dRTime.tiny);
+
+        //Add stars to win card
+        for (var i = 0, i < Octo.getLives();i++) {
+            const star = document.createElement('i')
+            star.classList.add('fa','fa-star');
+            stars.appendChild(star);
+        }
+
         document.getElementById('winning').classList.add('show');
 
-        document.getElementsByClassName('current-time')[0]
+        
 
 
     },
@@ -240,9 +261,15 @@ const Octo = {
         Model.recordTime.min = Model.time.min;
         Model.recordTime.sec = Model.time.sec;
         Model.recordTime.tiny = Model.time.tiny;
-    }
+    },
 
-    //Set the wine tracking property
+    getTime: function() {
+        return Model.time;
+    },
+
+    getRecordTime: function() {
+        return Model.recordTime;
+    },
 
     resetMoves: function() {
         Model.moves = 0;

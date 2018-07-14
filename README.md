@@ -5,6 +5,7 @@
 * [Instructions](#instructions)
 * [Contributing](#contributing)
 
+
 ## Instructions
 
 The game has already been built into the **live** folder. If you'd like to make this game your own, edit the files within the **src** folder.
@@ -23,8 +24,15 @@ To get started, you'll first need to get gulp up and running. Follow these steps
 
 I hope you enjoy this build. Always happy to receive input and ideas.
 
+
 ## Contributing
 
 This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
 
 For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+
+
+## Dependencies
+
+1) [Font Awesome](https://fontawesome.com)
+2) Gulp

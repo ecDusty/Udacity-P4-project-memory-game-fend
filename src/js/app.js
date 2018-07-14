@@ -245,11 +245,11 @@ const Octo = {
 
     //Show the winning sign.
     winGame: function() {
-        if (Model.time.min > Model.recordTime.min) {
+        if (Model.time.min < Model.recordTime.min) {
             this.setRecordTime();
-        } else if (Model.time.min == Model.recordTime.min && Model.time.sec > Model.recordTime.sec) {
+        } else if (Model.time.min == Model.recordTime.min && Model.time.sec < Model.recordTime.sec) {
             this.setRecordTime();
-        } else if (Model.time.tiny > Model.recordTime.tiny && Model.time.min == Model.recordTime.min && Model.time.sec == Model.recordTime.sec) {
+        } else if (Model.time.tiny < Model.recordTime.tiny && Model.time.min == Model.recordTime.min && Model.time.sec == Model.recordTime.sec) {
             this.setRecordTime();
         }
 

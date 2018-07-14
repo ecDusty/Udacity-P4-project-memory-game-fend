@@ -35,4 +35,6 @@ For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Dependencies
 
 1) [Font Awesome](https://fontawesome.com)
-2) Gulp
+2) Gulp (For build)
+3) SASS (For build)
+4) BABEL (For build)

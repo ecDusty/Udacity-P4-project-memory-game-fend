@@ -152,7 +152,7 @@ const View = {
         rTime.innerHTML = this.tFormatText(dRTime.min,dRTime.sec,dRTime.tiny);
 
         //Add stars to win card
-        for (var i = 0, i < Octo.getLives();i++) {
+        for (var i = 0; i < Octo.getLives();i++) {
             const star = document.createElement('i')
             star.classList.add('fa','fa-star');
             stars.appendChild(star);

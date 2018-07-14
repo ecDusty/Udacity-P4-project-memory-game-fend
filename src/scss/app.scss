@@ -53,7 +53,12 @@ h1 {
         display: inline-block;
         opacity: 1;
         transition: opacity 0.5s linear;
-        animation: win 3s ease-in-out infinite;
+        animation: win 10s ease-in infinite;
+
+        h1 {
+            margin-top:0;
+        }
+        
     }
 
     h1 {

@@ -105,8 +105,13 @@ const Model = {
                 min: 0,
                 sec: 0,
                 tiny: 0   
-            }
-            this.recordTime = 0;
+            };
+            this.recordTime = {
+                hr: 0,
+                min: 0,
+                sec: 0,
+                tiny: 0   
+            };
             this.numMatched = 0;
             this.activeCard = [null];
             this.buildDeck();
@@ -133,6 +138,10 @@ const View = {
     
     showWin: function() {
         document.getElementById('winning').classList.add('show');
+
+        document.getElementsByClassName('current-time')[0]
+
+
     },
 
     //Initialization of the game view, places elements in the DOM & adding event listeners.
@@ -148,9 +157,7 @@ const View = {
     hideCards: function(...cards) {
         for (var card of cards) {
             card.cardShow = false;
-            card.classList.remove('show');
-            card.classList.remove('wrong');
-            card.classList.remove('match');
+            card.classList.remove('show','wrong','match');
         }
     },
 
@@ -217,9 +224,23 @@ const Octo = {
 
     //Show the winning sign.
     winGame: function() {
+        if (Model.time.min > Model.recordTime.min) {
+            this.setRecordTime();
+        } else if (Model.time.min == Model.recordTime.min && Model.time.sec > Model.recordTime.sec) {
+            this.setRecordTime();
+        } else if (Model.time.tiny > Model.recordTime.tiny && Model.time.min == Model.recordTime.min && Model.time.sec == Model.recordTime.sec) {
+            this.setRecordTime();
+        }
+
         View.showWin();
         Model.time.start = false;
     },
+
+    setRecordTime: function() {
+        Model.recordTime.min = Model.time.min;
+        Model.recordTime.sec = Model.time.sec;
+        Model.recordTime.tiny = Model.time.tiny;
+    }
 
     //Set the wine tracking property
 
@@ -364,6 +385,7 @@ const Octo = {
         this.resetMoves();
         this.resetDeck();
         this.resetActiveCard();
+        Model.lives = 3;
         Model.time.start = false;
         Model.time.min = 0;
         Model.time.sec = 0;

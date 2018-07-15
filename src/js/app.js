@@ -289,9 +289,9 @@ const Octo = {
 
     //Return lives
     updateLives: function() {
-        if(Model.moves < 20) {
+        if(Model.moves < 25) {
             Model.lives = 3;
-        } else if (Model.moves < 29) {
+        } else if (Model.moves < 34) {
             Model.lives = 2;
             View.loseStar(Model.lives);
         } else {
@@ -419,6 +419,7 @@ const Octo = {
         Model.time.min = 0;
         Model.time.sec = 0;
         Model.time.tiny = 0;
+        Model.numMatched = 0;
         View.updateTime(Model.time);
         View.init();
     },

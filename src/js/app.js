@@ -202,9 +202,15 @@ const View = {
         if (!this.gameStart) {
             this.theDeck = document.getElementsByClassName('deck')[0];
             this.resetButton = document.getElementById('restart');
+            this.playAgainB = document.getElementById('play-again');
+            
             this.resetButton.addEventListener('click', function() {
                 Octo.reset();
             });
+            this.playAgainB.addEventListener('click', function() {
+                Octo.reset();
+            });
+
         }
 
         //Reset the deck
@@ -245,11 +251,9 @@ const Octo = {
 
     //Show the winning sign.
     winGame: function() {
-        if (Model.time.min < Model.recordTime.min) {
-            this.setRecordTime();
-        } else if (Model.time.min == Model.recordTime.min && Model.time.sec < Model.recordTime.sec) {
-            this.setRecordTime();
-        } else if (Model.time.tiny < Model.recordTime.tiny && Model.time.min == Model.recordTime.min && Model.time.sec == Model.recordTime.sec) {
+
+        //Check if the current time is better OR that recordTime isn't set
+        if ((Model.time.min <= Model.recordTime.min && Model.time.sec <= Model.recordTime.sec && Model.time.tiny <= Model.recordTime.tiny) || (!Model.recordTime.min && !Model.recordTime.sec && !Model.recordTime.tiny)) {
             this.setRecordTime();
         }
 
@@ -258,9 +262,7 @@ const Octo = {
     },
 
     setRecordTime: function() {
-        Model.recordTime.min = Model.time.min;
-        Model.recordTime.sec = Model.time.sec;
-        Model.recordTime.tiny = Model.time.tiny;
+        Model.recordTime = Model.time;
     },
 
     getTime: function() {

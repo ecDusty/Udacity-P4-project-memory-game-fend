@@ -57,7 +57,6 @@ var TEST_DIR = 'test',
     TEST_IMG = TEST_DIR+'/images/*.{png,jpeg,jpg,gif,svg}',
     TEST_AUD = TEST_DIR+'/audio';
 
-
 /*============
 =   Styles   =
 =  for Dist  =
@@ -72,7 +71,6 @@ gulp.task('sass-dist', function () {
         .pipe(autoprefixer())
         .pipe(gulp.dest(DIST_CSS));
 });
-
 
 /*============
 =   Styles   =
